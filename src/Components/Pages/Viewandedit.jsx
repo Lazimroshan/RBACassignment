@@ -43,6 +43,7 @@ function Viewandedit() {
     const newData = [...data];
     newData[user] = update;
     setData(newData);
+    navigate(-1)
   };
 
   return (
@@ -60,6 +61,7 @@ function Viewandedit() {
               name="name"
               onChange={handleupdate}
               className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
             />
           </div>
 
@@ -73,6 +75,7 @@ function Viewandedit() {
               name="email"
               onChange={handleupdate}
               className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
             />
           </div>
 
@@ -86,6 +89,7 @@ function Viewandedit() {
               name="role"
               onChange={handleupdate}
               className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
             />
           </div>
 
@@ -103,6 +107,7 @@ function Viewandedit() {
                   checked={update.permissions.includes("Read")}
                   onChange={handleupdate}
                   className="mr-2"
+  
                 />
                 <label htmlFor="read" className="text-sm">Read</label>
               </div>

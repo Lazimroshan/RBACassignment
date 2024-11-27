@@ -15,6 +15,8 @@ function Adduser() {
     status: "",
   });
 
+  const [errors, setErrors] = useState({});
+
   const handleInput = (event) => {
     const { name, value, checked, type } = event.target;
 
@@ -25,16 +27,56 @@ function Adduser() {
           : prevInput.permissions.filter((permission) => permission !== value);
         return { ...prevInput, permissions: updatedPermissions };
       });
+
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        permissions: updatedPermissions.length === 0 ? "At least one permission must be selected." : "",
+      }));
     } else {
-      setInput((prevInput) => ({ ...prevInput, [name]: value }));
+      setInput((prevInput) => {
+        const updatedInput = { ...prevInput, [name]: value };
+        validateField(name, value); 
+        return updatedInput;
+      });
     }
+  };
+
+  const validateField = (name, value) => {
+    let error = "";
+
+    if (!value.trim()) {
+      error = `${name[0].toUpperCase() + name.slice(1)} is required.`;
+    } else if (name === "email" && !/\S+@\S+\.\S+/.test(value)) {
+      error = "Invalid email format.";
+    }
+
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: error,
+    }));
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!input.name.trim()) newErrors.name = "Name is required.";
+    if (!input.email.trim()) newErrors.email = "Email is required.";
+    else if (!/\S+@\S+\.\S+/.test(input.email)) newErrors.email = "Invalid email format.";
+    if (!input.role.trim()) newErrors.role = "Role is required.";
+    if (input.permissions.length === 0) newErrors.permissions = "At least one permission must be selected.";
+    if (!input.status) newErrors.status = "Status is required.";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleData = (event) => {
     event.preventDefault();
-    const newData = [...data, input];
-    setData(newData);
-    navigate(-1);
+    if (validateForm()) {
+      const newData = [...data, input];
+      setData(newData);
+      navigate(-1);
+    }
   };
 
   return (
@@ -42,11 +84,9 @@ function Adduser() {
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-bold text-center mb-6">Add User</h2>
         <form onSubmit={handleData} className="space-y-4">
+
           <div className="flex flex-col">
-            <label
-              htmlFor="name"
-              className="text-sm font-semibold text-gray-700"
-            >
+            <label htmlFor="name" className="text-sm font-semibold text-gray-700">
               Name
             </label>
             <input
@@ -56,13 +96,12 @@ function Adduser() {
               onChange={handleInput}
               className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
+            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
           </div>
 
+
           <div className="flex flex-col">
-            <label
-              htmlFor="email"
-              className="text-sm font-semibold text-gray-700"
-            >
+            <label htmlFor="email" className="text-sm font-semibold text-gray-700">
               Email
             </label>
             <input
@@ -72,13 +111,12 @@ function Adduser() {
               onChange={handleInput}
               className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
+            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
           </div>
 
+
           <div className="flex flex-col">
-            <label
-              htmlFor="role"
-              className="text-sm font-semibold text-gray-700"
-            >
+            <label htmlFor="role" className="text-sm font-semibold text-gray-700">
               Role
             </label>
             <input
@@ -88,12 +126,12 @@ function Adduser() {
               onChange={handleInput}
               className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
+            {errors.role && <p className="text-red-500 text-sm mt-1">{errors.role}</p>}
           </div>
 
+
           <div className="flex flex-col">
-            <label className="text-sm font-semibold text-gray-700">
-              Permissions
-            </label>
+            <label className="text-sm font-semibold text-gray-700">Permissions</label>
             <div className="flex flex-col space-y-2">
               {["Read", "Write", "Update"].map((perm) => (
                 <div key={perm} className="flex items-center">
@@ -112,13 +150,12 @@ function Adduser() {
                 </div>
               ))}
             </div>
+            {errors.permissions && <p className="text-red-500 text-sm mt-1">{errors.permissions}</p>}
           </div>
 
+
           <div className="flex flex-col">
-            <label
-              htmlFor="status"
-              className="text-sm font-semibold text-gray-700"
-            >
+            <label htmlFor="status" className="text-sm font-semibold text-gray-700">
               Status
             </label>
             <div className="flex items-center space-x-4">
@@ -151,6 +188,7 @@ function Adduser() {
                 </label>
               </div>
             </div>
+            {errors.status && <p className="text-red-500 text-sm mt-1">{errors.status}</p>}
           </div>
 
           <div className="flex justify-between mt-6">
