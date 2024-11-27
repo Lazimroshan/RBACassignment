@@ -1,8 +1,25 @@
-# React + Vite
+Role Based Acesses Control (RBAC) 
+A React-based User Management System for creating, editing, and managing user profiles with roles, permissions, and statuses. This project demonstrates form validation, state management using Context API, and navigation with React Router.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Project overview
+The project RBAC allows you to view and edit exisitng user profiles , add new users and it have form validation navigate using reactrouter dom for better perfomence. Gives a simple user friendly ui and ux and responisive design
 
-Currently, two official plugins are available:
+Mainfeatures 
+Addusers,Editusers,Deleteusers 
+Form validation allows you to validate your data 
+Responsive design
+Managing user data with context api
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Techonogies used
+React.js + vite : Front-end library
+React Router: For navigation between pages
+Context API: For global state management.
+Tailwind CSS: For styling and responsiveness.
+
+Installation and Setup
+Prerequisites
+Node.js
+npm run dev for run the project
+
+
+
