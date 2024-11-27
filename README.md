@@ -1,4 +1,4 @@
-Role Based Acesses Control (RBAC) 
+Role Based Access Control (RBAC)  UI
 A React-based User Management System for creating, editing, and managing user profiles with roles, permissions, and statuses. This project demonstrates form validation, state management using Context API, and navigation with React Router.
 
 Project overview
